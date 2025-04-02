@@ -55,25 +55,29 @@ class ChatState extends State<Chat> {
     });
     socket!.connect();
     socket!.onConnect((_) {
-      print('connected to websocket');
+      print('connected to websocket 1');
     });
-    socket!.on('newChat', (message) {
-      print(message);
+    socket!.on('message', (msg) {
+      print(msg);
       setState(() {
         // MessagesModel.
-        messages.add(message);
+messages.add(MessagesModel.fromJson(msg));
       });
     });
     socket!.on(
-      //  'messageServer',
-      "receive_message",
+      //"receive_message",
+       //"recmessage",
+       "message",
         (msg) => {
               print("connected messageServer"),
               print(msg),
               setState(() {
                 messages.add(MessagesModel(
-                    type: msg["type"], msg: msg["msg"], sender: msg["sender"]));
-              })
+                    type: msg["type"],msg: msg["msg"], sender: msg["sender"]));
+                     // type: "othermessage", msg: msg["msg"], sender: msg["sender"]));
+             
+              }),
+           //  print(messages)
             });
   }
 
